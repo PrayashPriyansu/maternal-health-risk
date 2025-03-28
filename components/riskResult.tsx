@@ -22,18 +22,18 @@ export default function RiskAssessment({ score }: RiskAssessmentProps) {
     badgeStyle = "bg-red-500 text-white";
   }
 
-  let progressColor = "#888888";
-  if (prediction === "low risk") {
-    progressColor = "#22c55e";
-  } else if (prediction === "mid risk") {
-    progressColor = "#eab308";
-  } else if (prediction === "high risk") {
-    progressColor = "#ef4444";
-  }
+  const progressColor = "#888888";
+  // if (prediction === "low risk") {
+  //   progressColor = "#22c55e";
+  // } else if (prediction === "mid risk") {
+  //   progressColor = "#eab308";
+  // } else if (prediction === "high risk") {
+  //   progressColor = "#ef4444";
+  // }
 
   return (
     <div className="w-full p-5 grid grid-cols-1 md:grid-cols-2 mt-5 bg-white rounded-lg shadow-lg">
-      <div className="flex items-center justify-center border-b-2 md:border-b-0  md:border-r-2">
+      <div className="flex items-center pb-3 md:pb-0 justify-center border-b-2 md:border-b-0  md:border-r-2">
         <div>
           <h2 className="text-2xl font-semibold text-center">
             Risk Assessment
@@ -44,7 +44,7 @@ export default function RiskAssessment({ score }: RiskAssessmentProps) {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto  space-y-5">
+      <div className="max-w-3xl mx-auto mt-3 md:mt-0 space-y-5">
         <div className="md:flex md:gap-10">
           <div className="flex items-center justify-center mb-4 ">
             <Info className="w-6 h-6 text-gray-400" />
