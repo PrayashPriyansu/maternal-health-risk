@@ -57,20 +57,23 @@ function Page() {
   }
 
   async function handleSubmit() {
-    const response = await fetch("http://127.0.0.1:8000/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Age: age,
-        SystolicBP: systolic,
-        DiastolicBP: diastolic,
-        BS: glucose,
-        BodyTemp: temperature,
-        HeartRate: heartRate,
-      }),
-    });
+    const response = await fetch(
+      "https://maternal-health-risk-backend.onrender.com/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Age: age,
+          SystolicBP: systolic,
+          DiastolicBP: diastolic,
+          BS: glucose,
+          BodyTemp: temperature,
+          HeartRate: heartRate,
+        }),
+      }
+    );
 
     const result = await response.json();
 
