@@ -28,7 +28,8 @@ function Page() {
     prediction: "not calculated",
     probability: 0,
   });
-  const [isClient, setIsClient] = useState(false);
+  const [isClient, setIsClient] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // const data = await fetch("http://127.0.0.1:8000/");
 
@@ -57,30 +58,35 @@ function Page() {
   }
 
   async function handleSubmit() {
-    const response = await fetch(
-      "https://maternal-health-risk-backend.onrender.com/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Age: age,
-          SystolicBP: systolic,
-          DiastolicBP: diastolic,
-          BS: glucose,
-          BodyTemp: temperature,
-          HeartRate: heartRate,
-        }),
-      }
-    );
-
-    const result = await response.json();
-
-    setScore({
-      prediction: result["Predicted Risk Level"],
-      probability: result["Prediction Probability"],
-    });
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        "https://maternal-health-risk-backend.onrender.com/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Age: age,
+            SystolicBP: systolic,
+            DiastolicBP: diastolic,
+            BS: glucose,
+            BodyTemp: temperature,
+            HeartRate: heartRate,
+          }),
+        }
+      );
+      const result = await response.json();
+      setScore({
+        prediction: result["Predicted Risk Level"],
+        probability: result["Prediction Probability"],
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -181,10 +187,24 @@ function Page() {
       </div>
       <Button
         onClick={handleSubmit}
+        disabled={isLoading}
         size={"lg"}
-        className="mt-8 cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out active:scale-95 bg-blue-500 text-white hover:bg-blue-600"
+        className={`relative mt-8 cursor-pointer ${
+          isLoading
+            ? "hover:scale-none"
+            : "hover:scale-105 hover:bg-blue-600 active:scale-95"
+        } transition-all duration-200 ease-in-out  bg-blue-500 text-white `}
       >
-        Calculate Risk
+        {isLoading && (
+          <span className="absolute left-1/2 top-1/2 -translate-1/2 rounded-full size-5 border-2 border-white border-t-transparent animate-spin"></span>
+        )}
+        <span
+          className={`${
+            isLoading ? "invisible pointer-events-none" : "visible"
+          }`}
+        >
+          Calculate Risk
+        </span>
       </Button>
 
       <RiskResult score={score} />
