@@ -153,8 +153,8 @@ function Page() {
           title="Blood Sugar Level"
           description="Fasting blood sugar level measured in mmol/L."
           unit="mmol/L"
-          min={4}
-          max={40}
+          min={2}
+          max={20}
         />
 
         {/* Body Temperature (Celsius) */}
